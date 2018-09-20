@@ -9,22 +9,32 @@ output: html_document
 library(tidyverse)
 ```
 
-## R Markdown
+## Question 1
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Below is the code to create the data frame for Question 1. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r q1_df}
+q1_df = tibble(
+  vec_numeric = runif(10, 0, 5),
+  vec_logical = vec_numeric > 2,
+  vec_char = c("hello", "i", "do", "not", "know", "what", "to", "write", "here", "soooo"),
+  vec_factor = factor(c("level1", "level1", "level1", "level1", "level1", "level2", "level2",
+                        "level2", "level2", "level2"))
+)
+  
 
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
+Below I will try to get the mean for each variable in the data frame created.
 
-You can also embed plots, for example:
+```{r q1_means, warning = FALSE}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+mean(q1_df$vec_numeric)
+mean(q1_df$vec_logical)
+mean(q1_df$vec_char)
+mean(q1_df$vec_factor)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The numeric vector allows you to take the mean because it holds numeric values. The logical vector also allows you to take the mean because TRUE holds an underlying 1 value and FALSE holds an underlying 0 value and therefore the mean of the vector relies on these values. The character vector and the factor vector do not hold any numerical values and are therefore unable to produce a mean, resulting in an NA value. 
+

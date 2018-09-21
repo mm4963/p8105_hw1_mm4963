@@ -65,3 +65,36 @@ The first coercion is able to accomplish the task. R factors the character value
 The second coercion, however, is not able to be done and produces NAs. This is because a character vector will not hold underlying numerical values. Once the factor vector was coerced into a character vector the underlying numerical values that stood with each factor were removed and R is unable to give the newly created character values any numerical value.
 
 
+
+##Question 2
+
+Below is the code to create the data frame for Question 2.
+
+```{r q2_df}
+q2_df = tibble(
+  x = rnorm(1000),
+  y = rnorm(1000),
+  x_plus_y_logical = (x + y) > 0,
+  x_plus_y_numeric = as.numeric(x_plus_y_logical),
+  x_plus_y_factor = factor(x_plus_y_numeric)
+)
+```
+
+
+The size of the data set is `r nrow(q2_df)` rows and `r ncol(q2_df)` columns. The mean of x is `r mean(q2_df$x)` and the median of x is `r median(q2_df$x)`. The proportion of cases for which the logical vector is TRUE is `r mean(q2_df$x_plus_y_logical)`.
+
+Now I will plot x vs y
+
+```{r x_y_plots, message = FALSE}
+ggplot(q2_df, aes(x = x, y = y, color = x_plus_y_logical)) + geom_point()
+ggsave("scatter_plot_1.pdf")
+ggplot(q2_df, aes(x = x, y = y, color = x_plus_y_numeric)) + geom_point()
+ggplot(q2_df, aes(x = x, y = y, color = x_plus_y_factor)) + geom_point()
+```
+
+
+
+
+
+
+

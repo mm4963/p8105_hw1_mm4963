@@ -138,16 +138,28 @@ $(document).ready(function () {
   vec_factor = factor(c(&quot;level1&quot;, &quot;level1&quot;, &quot;level1&quot;, &quot;level1&quot;, &quot;level1&quot;, &quot;level2&quot;, &quot;level2&quot;,
                         &quot;level2&quot;, &quot;level2&quot;, &quot;level2&quot;))
 )</code></pre>
-<p>Below I will try to get the mean for each variable in the data frame created.</p>
+<p>Now I will try to get the mean for each variable in the data frame created.</p>
 <pre class="r"><code>mean(q1_df$vec_numeric)</code></pre>
-<pre><code>## [1] 2.632552</code></pre>
+<pre><code>## [1] 2.346805</code></pre>
 <pre class="r"><code>mean(q1_df$vec_logical)</code></pre>
-<pre><code>## [1] 0.7</code></pre>
+<pre><code>## [1] 0.5</code></pre>
 <pre class="r"><code>mean(q1_df$vec_char)</code></pre>
 <pre><code>## [1] NA</code></pre>
 <pre class="r"><code>mean(q1_df$vec_factor)</code></pre>
 <pre><code>## [1] NA</code></pre>
 <p>The numeric vector allows you to take the mean because it holds numeric values. The logical vector also allows you to take the mean because TRUE holds an underlying 1 value and FALSE holds an underlying 0 value and therefore the mean of the vector relies on these values. The character vector and the factor vector do not hold any numerical values and are therefore unable to produce a mean, resulting in an NA value.</p>
+<p>Below I will try coerce non-numerical variables from the data frame into numerical values.</p>
+<pre class="r"><code>as.numeric(q1_df$vec_logical)
+as.numeric(q1_df$vec_char)
+as.numeric(q1_df$vec_factor)</code></pre>
+<p>When I do this, the logical vector turns into 1s and 0s (respectably for True and False) due to the underlying values of the TRUE and FALSE logical values. The character vector does not hold any underlying numerical value and therefore cannot be coerced into a numerical vector. NAs are produced. The factor vector, however, is able to be coerced into a numerical vector. R has levels for each factor, and the number related to each level is given to each value when coerced into a numeric vector.</p>
+<p>Now I try to convert the character vector to a factor and then to a numeric as well as the factor vector to character and then to numeric.</p>
+<pre class="r"><code>as.numeric(factor(q1_df$vec_char))</code></pre>
+<pre><code>##  [1]  2  4  1  6  5  9  8 10  3  7</code></pre>
+<pre class="r"><code>as.numeric(as.character(q1_df$vec_factor))</code></pre>
+<pre><code>##  [1] NA NA NA NA NA NA NA NA NA NA</code></pre>
+<p>The first coercion is able to accomplish the task. R factors the character values by giving each ditstinct character a level, making each a factor. Once the newly factored character vector gets coerced into a numerical vector the same thing as above occurs, each level receives a numerical value to go with their level. It appears the numerical values are based on alphabetical order, going from one to ten.</p>
+<p>The second coercion, however, is not able to be done and produces NAs. This is because a character vector will not hold underlying numerical values. Once the factor vector was coerced into a character vector the underlying numerical values that stood with each factor were removed and R is unable to give the newly created character values any numerical value.</p>
 </div>
 
 

@@ -25,7 +25,7 @@ q1_df = tibble(
 
 ```
 
-Below I will try to get the mean for each variable in the data frame created.
+Now I will try to get the mean for each variable in the data frame created.
 
 ```{r q1_means, warning = FALSE}
 
@@ -37,4 +37,31 @@ mean(q1_df$vec_factor)
 ```
 
 The numeric vector allows you to take the mean because it holds numeric values. The logical vector also allows you to take the mean because TRUE holds an underlying 1 value and FALSE holds an underlying 0 value and therefore the mean of the vector relies on these values. The character vector and the factor vector do not hold any numerical values and are therefore unable to produce a mean, resulting in an NA value. 
+
+
+Below I will try coerce non-numerical variables from the data frame into numerical values.
+
+```{r q1_as_numeric, results = 'hide', warning = FALSE}
+
+as.numeric(q1_df$vec_logical)
+as.numeric(q1_df$vec_char)
+as.numeric(q1_df$vec_factor)
+
+```
+
+
+When I do this, the logical vector turns into 1s and 0s (respectably for True and False) due to the underlying values of the TRUE and FALSE logical values. The character vector does not hold any underlying numerical value and therefore cannot be coerced into a numerical vector. NAs are produced. The factor vector, however, is able to be coerced into a numerical vector. R has levels for each factor, and the number related to each level is given to each value when coerced into a numeric vector.
+
+
+Now I try to convert the character vector to a factor and then to a numeric as well as the factor vector to character and then to numeric.
+
+```{r q1_coercions, warning = FALSE}
+as.numeric(factor(q1_df$vec_char))
+as.numeric(as.character(q1_df$vec_factor))
+```
+
+The first coercion is able to accomplish the task. R factors the character values by giving each ditstinct character a level, making each a factor. Once the newly factored character vector gets coerced into a numerical vector the same thing as above occurs, each level receives a numerical value to go with their level. It appears the numerical values are based on alphabetical order, going from one to ten.
+
+The second coercion, however, is not able to be done and produces NAs. This is because a character vector will not hold underlying numerical values. Once the factor vector was coerced into a character vector the underlying numerical values that stood with each factor were removed and R is unable to give the newly created character values any numerical value.
+
 

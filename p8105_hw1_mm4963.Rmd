@@ -2,14 +2,14 @@
 title: "p8105_hw1_mm4963"
 author: "Melanie Mayer"
 date: "9/18/2018"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
 library(tidyverse)
 ```
 
-## Question 1
+### Question 1
 
 Below is the code to create the data frame for Question 1. 
 
@@ -25,7 +25,7 @@ q1_df = tibble(
 
 ```
 
-Now I will try to get the mean for each variable in the data frame created.
+Now I will try to get the mean for each vector in the data frame created.
 
 ```{r q1_means, warning = FALSE}
 
@@ -36,7 +36,7 @@ mean(q1_df$vec_factor)
 
 ```
 
-The numeric vector allows you to take the mean because it holds numeric values. The logical vector also allows you to take the mean because TRUE holds an underlying 1 value and FALSE holds an underlying 0 value and therefore the mean of the vector relies on these values. The character vector and the factor vector do not hold any numerical values and are therefore unable to produce a mean, resulting in an NA value. 
+The numeric vector allows you to take the mean because it holds numeric values. The logical vector also allows you to take the mean because TRUE holds an underlying 1 value and FALSE holds an underlying 0 value and therefore the mean of the vector relies on these values. The character vector and the factor vector do not hold any numerical values and are therefore unable to produce a mean, resulting in a NA value. 
 
 
 Below I will try coerce non-numerical variables from the data frame into numerical values.
@@ -50,7 +50,7 @@ as.numeric(q1_df$vec_factor)
 ```
 
 
-When I do this, the logical vector turns into 1s and 0s (respectably for True and False) due to the underlying values of the TRUE and FALSE logical values. The character vector does not hold any underlying numerical value and therefore cannot be coerced into a numerical vector. NAs are produced. The factor vector, however, is able to be coerced into a numerical vector. R has levels for each factor, and the number related to each level is given to each value when coerced into a numeric vector.
+When I do this, the logical vector turns into 1s and 0s (respectably for TRUE and FALSE) due to the underlying values of the TRUE and FALSE logical values. The character vector does not hold any underlying numerical value and therefore cannot be coerced into a numerical vector. NAs are produced. The factor vector, however, is able to be coerced into a numerical vector. R has levels for each factor, and the number related to each level is given to each value when coerced into a numeric vector.
 
 
 Now I try to convert the character vector to a factor and then to a numeric as well as the factor vector to character and then to numeric.
@@ -60,13 +60,14 @@ as.numeric(factor(q1_df$vec_char))
 as.numeric(as.character(q1_df$vec_factor))
 ```
 
-The first coercion is able to accomplish the task. R factors the character values by giving each ditstinct character a level, making each a factor. Once the newly factored character vector gets coerced into a numerical vector the same thing as above occurs, each level receives a numerical value to go with their level. It appears the numerical values are based on alphabetical order, going from one to ten.
+The first coercion is able to accomplish the task. R factors the character values by giving each distinct character term a level, making each a factor. Once the newly factored character vector gets coerced into a numerical vector the same thing as above occurs, each level receives a numerical value to go with their level. It appears the numerical values are based on alphabetical order, going from one to ten.
 
 The second coercion, however, is not able to be done and produces NAs. This is because a character vector will not hold underlying numerical values. Once the factor vector was coerced into a character vector the underlying numerical values that stood with each factor were removed and R is unable to give the newly created character values any numerical value.
 
 
 
-##Question 2
+
+###Question 2
 
 Below is the code to create the data frame for Question 2.
 
@@ -76,24 +77,26 @@ q2_df = tibble(
   y = rnorm(1000),
   x_plus_y_logical = (x + y) > 0,
   x_plus_y_numeric = as.numeric(x_plus_y_logical),
-  x_plus_y_factor = factor(x_plus_y_numeric)
+  x_plus_y_factor = factor(x_plus_y_logical)
 )
 ```
 
 
-The size of the data set is `r nrow(q2_df)` rows and `r ncol(q2_df)` columns. The mean of x is `r mean(q2_df$x)` and the median of x is `r median(q2_df$x)`. The proportion of cases for which the logical vector is TRUE is `r mean(q2_df$x_plus_y_logical)`.
+The size of the data set is `r nrow(q2_df)` rows and `r ncol(q2_df)` columns. The mean of x is `r mean(q2_df$x)` and the median of x is `r median(q2_df$x)`. The mean of y is `r mean(q2_df$y)` and the median of y is `r median(q2_df$y)`. The proportion of cases for which the logical vector is TRUE is `r mean(q2_df$x_plus_y_logical)`.
 
 Now I will plot x vs y
 
 ```{r x_y_plots, message = FALSE}
-ggplot(q2_df, aes(x = x, y = y, color = x_plus_y_logical)) + geom_point()
+ggplot(q2_df, aes(x = x, y = y, color = x_plus_y_logical)) + geom_point() 
 ggsave("scatter_plot_1.pdf")
 ggplot(q2_df, aes(x = x, y = y, color = x_plus_y_numeric)) + geom_point()
 ggplot(q2_df, aes(x = x, y = y, color = x_plus_y_factor)) + geom_point()
 ```
 
 
+When coloring the points based on a logical or factor vector only two colors are chosen and used to color the points. This is because a logical vector can only hold two values, TRUE or FALSE, therefore only two colors are necessary. A factor vector can only have the amount of values as it does the number of factors. In this case there are only two factors since it was derived from a numerical vector originally derived from a logical vector. They are both discrete values. This is why the color scale for these two plots are the same and rigidly based on two colors. 
 
+When the numeric vector is used to color the scatter plot a range of blues is used to color the points. Even though only two number are actually seen in the data set, since it is a numerical vector it could technically hold any numerical value, it is continuous instead of discrete like logical and factor. The range allows anything from the smallest number seen (0) to the largest (1) to color the points.
 
 
 
